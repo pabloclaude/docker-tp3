@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  data:
+    image: mariadb:10.11
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpwd
+      - MARIADB_DATABASE=tp3
+      - MARIADB_USER=tp3
+      - MARIADB_PASSWORD=tp3pwd
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+    networks: [tp3-net]
+
+  script:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    networks: [tp3-net]
+
+  http:
+    image: nginx:stable
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/app:ro
+      - ./config/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - script
+      - data
+    networks: [tp3-net]
+
+networks:
+  tp3-net:
+    driver: bridge

@@ -1,0 +1,16 @@
+CREATE DATABASE IF NOT EXISTS my_app_db;
+USE my_app_db;
+
+CREATE TABLE IF NOT EXISTS counters (
+    id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    count INT(11) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO counters (id, count) VALUES (1, 0) ON DUPLICATE KEY UPDATE id=id;
+
+CREATE USER 'app_user'@'%' IDENTIFIED BY 'app_password';
+
+GRANT ALL PRIVILEGES ON my_app_db.* TO 'app_user'@'%';
+
+FLUSH PRIVILEGES;
