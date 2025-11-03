@@ -47,7 +47,6 @@ script : PHP-FPM avec l’extension mysqli
 http : Nginx
 
 Même logique que précédemment : même réseau, mêmes volumes, même conf.
-J’ai simplement ajouté un petit sleep côté PHP pour laisser le temps à MariaDB de démarrer avant de se connecter (utile sans healthcheck).
 
 Ce que j’ai compris :
 
